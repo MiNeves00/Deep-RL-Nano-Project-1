@@ -7,7 +7,7 @@
 
 ## Introduction
 
-This repository is a collection of my personal solutions for the course projects
+This repository is a collection of my personal solutions for the projects of the Udacity course - [Deep Reinforcement Learning Nanodegree](https://www.udacity.com/course/deep-reinforcement-learning-nanodegree--nd893)
 
 ## Projects
 
@@ -17,8 +17,12 @@ For this project, an agent was trained to navigate (and collect bananas!) in a l
 
 <IMG SRC="./Project1-Navigation/imgs/BananaTestingCropped.gif" width = "600" >
 
+### 2. Continuous Control
 
+This project was made with the [Reacher](https://github.com/Unity-Technologies/ml-agents/blob/main/docs/Learning-Environment-Examples.md#reacher) environment.
 
-## Relevant Links
+In this environment, a double-jointed arm can move to target locations. A reward of +0.1 is provided for each step that the agent's hand is in the goal location. 
 
-https://www.udacity.com/course/deep-reinforcement-learning-nanodegree--nd893
+Thus, the goal of your agent is to maintain its position at the target location for as many time steps as possible.
+
+The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.
