@@ -26,3 +26,5 @@ In this environment, a double-jointed arm can move to target locations. A reward
 Thus, the goal of your agent is to maintain its position at the target location for as many time steps as possible.
 
 The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.
+
+<IMG SRC="./Project2-ContinuousControl/imgs/ReacherTest2.gif" width = "600" >
