@@ -245,7 +245,6 @@ Bellow is shown this model performing in the environment.
 
 <IMG class="cropped" SRC="./imgs/ReacherTest2.gif" width = "600" >
 
-</style>
 
 Despite having completed the environment my curiosity and ambition were still wishing for better and more stable results. 
 
@@ -385,3 +384,4 @@ width: 600px;
 height: 200px; 
 object-fit: cover;
 }
+</style>

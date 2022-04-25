@@ -20,6 +20,12 @@ A reward of +1 is provided for collecting a yellow banana, and a reward of -1 is
 
 The task is episodic and it is considered to be solved when an average score of 13 or above is achieved across 100 consecutive episodes.
 
+## Report
+
+Read the <a href="./Report.md">Report.md</a> file to see all the implementation details and the results obtained along side future work ideas.
+
+---
+
 
 ## Getting Started
 

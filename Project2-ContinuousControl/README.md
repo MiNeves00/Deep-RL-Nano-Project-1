@@ -112,3 +112,4 @@ width: 600px;
 height: 200px; 
 object-fit: cover;
 }
+</style>
