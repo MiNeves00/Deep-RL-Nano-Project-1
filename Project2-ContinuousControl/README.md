@@ -21,7 +21,9 @@ Example of an Action:
 ```
 [0.5, -1, 0, -0.1]
 ```
+Example of a State:
 
+![State Example](./imgs/state.png)
 
 
 **Solving the Enviroment**
