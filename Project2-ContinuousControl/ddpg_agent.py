@@ -48,15 +48,11 @@ class Agent():
             weight_decay (int) : L2 weight decay  
             batch_norm (bool): Choose if batch normalization is applied
             add_ounoise (int) : Which episode to start using OU noise, if 0 starts from the beggining, if -1 never uses it
-            mu (float) : Ornstein-Uhlenbeck noise parameter
-            theta (float) : Ornstein-Uhlenbeck noise parameter
-            sigma (float) : Ornstein-Uhlenbeck noise parameter
+            mu (float) : OU noise parameter
+            theta (float) : OU noise parameter
+            sigma (float) : OU noise parameter
             dropout_prob (float) : Dropout Regularization Layer Probability
         """
-        
-        print("\nDDPG called with params: state_size={} action_size={} random_seed={} actor_fc1_units={} actor_fc2_units={} critic_fc1_units={} critic_fc2_units={} buffer_size={} batch_size={} gamma={} tau={} lr_actor={} lr_critic={} weight_decay={} batch_norm={} add_ounoise={} mu={} theta={} sigma={} dropout_prob={} \n".format(state_size, action_size, random_seed, 
-                                                          actor_fc1_units, actor_fc2_units, critic_fc1_units, critic_fc2_units,
-                                                          buffer_size, batch_size, gamma, tau, lr_actor, lr_critic, weight_decay, batch_norm,add_ounoise,mu,theta,sigma,dropout_prob))
         
         self.state_size = state_size
         self.action_size = action_size

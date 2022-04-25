@@ -42,7 +42,6 @@ class Actor(nn.Module):
 
     def forward(self, state):
         """Build an actor (policy) network that maps states -> actions."""
-        # Reshape the state to comply with Batch Normalization
         if state.dim() == 1:
             state = torch.unsqueeze(state,0)
         x = F.relu(self.fc1(state))
@@ -84,7 +83,6 @@ class Critic(nn.Module):
 
     def forward(self, state, action):
         """Build a critic (value) network that maps (state, action) pairs -> Q-values."""
-        # Reshape the state to comply with Batch Normalization
         if state.dim() == 1:
             state = torch.unsqueeze(state,0)
         xs = F.relu(self.fcs1(state))
