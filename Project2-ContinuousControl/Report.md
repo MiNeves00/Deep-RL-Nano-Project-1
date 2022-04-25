@@ -17,17 +17,13 @@ Only the 1st version of the environment was solved in this project, which means 
 
 A agent which acts randomly manages to consistently get a score between 0 and 1, this serves as a baseline. 
 
-<IMG SRC="./imgs/randomReacher.gif" width = "600" style="width: 600px; 
-height: 200px; 
-object-fit: cover;" >
+<IMG SRC="./imgs/randomReacher.gif" width = "600" >
 
 ### Trained Agent
 
 This agent was trained on ~300 episodes and managed to complete the environment, achieving an average score over 100 episodes of 31,23.
 
-<IMG SRC="./imgs/ReacherTest2.gif" width = "600" style="width: 600px; 
-height: 200px; 
-object-fit: cover;" >
+<IMG SRC="./imgs/ReacherTest2.gif" width = "600" >
 
 
 ## **Learning Algorithm**
@@ -247,9 +243,7 @@ As seen above the model managed to complete the environment! Having an average s
 
 Bellow is shown this model performing in the environment.
 
-<IMG SRC="./imgs/ReacherTest2.gif" width = "600" style="width: 600px; 
-height: 200px; 
-object-fit: cover;" >
+<IMG SRC="./imgs/ReacherTest2.gif" width = "600">
 
 
 Despite having completed the environment my curiosity and ambition were still wishing for better and more stable results. 
