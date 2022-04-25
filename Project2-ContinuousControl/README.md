@@ -26,7 +26,7 @@ Example of a State:
 ![State Example](./imgs/state.png)
 
 
-**Solving the Enviroment**
+**Solving the Environment**
 
 In this project there exists two separate versions of the Unity environment:
 
@@ -53,7 +53,7 @@ More specifically:
 
 ## Getting Started
 
-A version of Python Python <= 3.6 must be used in order for the enviroment to be properly visualized.
+A version of Python Python <= 3.6 must be used in order for the environment to be properly visualized.
 
 Unity Agents, mlagents, PyTorch and numpy must be installed:
 ```

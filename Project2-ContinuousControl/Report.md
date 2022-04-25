@@ -7,16 +7,16 @@
 
 ## **Introduction**
 
-This report explains the implementation of the solution and all it's nuances. For a detailed explanation of the enviroment check the README.md file.
+This report explains the implementation of the solution and all it's nuances. For a detailed explanation of the environment check the README.md file.
 
-Only the 1st version of the enviroment was solved in this project, which means there was only one Agent training at any time as seen in the video bellow.
+Only the 1st version of the environment was solved in this project, which means there was only one Agent training at any time as seen in the video bellow.
 
 **TODO** insert video of random agent
 
 
 ## **Learning Algorithm**
 
-To solve this project an algorithm was implemented based on the <a href="https://arxiv.org/pdf/1509.02971.pdf"> DDPG - Deep Deterministic Policy Gradient</a> with some variations to fit the enviroment.
+To solve this project an algorithm was implemented based on the <a href="https://arxiv.org/pdf/1509.02971.pdf"> DDPG - Deep Deterministic Policy Gradient</a> with some variations to fit the environment.
 
 The network description itself along with the agent details, interpretation of obtained results and possible future work ideas are described in sections ahead.
   
@@ -27,13 +27,13 @@ The network description itself along with the agent details, interpretation of o
 
 The agent has 2 main networks, a Actor and a Crtic with very simillar architectures, although their input and output is distinct.
 
-In my implementation each trained network has a layout of two fully connected layers followed by another fully connected layer of 4 nodes, equal to the number of actions since it is the output layer. The first layer takes as input the enviroment which is a vector of length 33.
+In my implementation each trained network has a layout of two fully connected layers followed by another fully connected layer of 4 nodes, equal to the number of actions since it is the output layer. The first layer takes as input the environment which is a vector of length 33.
 
-The Actor network takes as input the enviroment state and uses its network (policy) to output a vector of values representing the action to take (since we are using DDPG). 
+The Actor network takes as input the environment state and uses its network (policy) to output a vector of values representing the action to take (since we are using DDPG). 
 
-Use that action on the enviroment and observe next state ```s'``` and the reward. 
+Use that action on the environment and observe next state ```s'``` and the reward. 
 
-Then the Critic takes as input the state and outputs the value for that state and does the same for the next state already received from the enviroment. 
+Then the Critic takes as input the state and outputs the value for that state and does the same for the next state already received from the environment. 
 
 These values are used to calculate the advantage function which is used to update/train the actor.
 
@@ -56,15 +56,29 @@ There exists both a local and target network for the Actor and the Critic.
 
 - Soft Update
 
-**TODO**
+Updates the target networks weights with the local network depending on the value of the hyperparameter tau ```τ```, tau ranges from 0 to 1.
+
+When tau is close to 0 the target network stays is only slightly updated and when tau is close to 1 the target network becomes quite simillar to the local one. 
+
+```
+θ_target = τ*θ_local + (1 - τ)*θ_target
+```
 
 - Dropout Regularization
 
-**TODO**
+It randomly shutsdown the weight of the nodes based on a probability variable, it only affects trainning and dropout is not active when testing. If the probability is 20% then when making a guess on which action to take 20% of the network nodes if be randomly set to zero.
+
+This technique is used to try to improve the models generalization and is used as a regularization technique since it reduces overfitting, much like adding noise to a network.
+
+In this implementation dropout was only applied to the Actor's local and target netwrok'. 
+
+Dropout regularization can be deactivated by changing dropout probability to zero.
 
 - Batch Normalization
 
-**TODO**
+This technique is used on both the Actor and the Critic to normalize the values in each batch after passing the values through the first layer in order to try to reduce variance. 
+
+Batch normalization can be activated or deactivated using a hyperparameter.
 
 - Replay Memory 
 
@@ -90,43 +104,20 @@ This usually helps reduce overfitting but can slow down and difficult training a
 
 The Agent interacts with and learns from the environment.
 
-It is given an initial state and decides which action is the best, then it observes which state derives from taking that action and gets the respective reward which is added to the score for that episode. Epsilon is updated each episode based on the hyperparameters.
+It is given an initial state and decides which action is the best, then it observes which state derives from taking that action and gets the respective reward which is added to the score for that episode. 
 
 These steps are repeated until the episode has finished. 
 
-If the agent scores an average over 100 episodes equal or greater to the score goal it saves the network weights in a file called `checkpoint.pth`.
+If the agent scores an average over 100 episodes equal or greater to the score goal of 30 it saves the actor and critic local network weights to files called `actor_checkpoint.pth` and `critic_checkpoint.pth`. 
 
-Training was done using a CPU only since the network only has Fully Connected layers so it would not benefit from any paralelism, thus the GPU would probably not significantly decrease training time. GPU would only be more relevant if the enviroment used to train was the Multi Agent enviroment since it features 20 Agents acting simultaneously.
+The network's weights can be loaded from these files to test the model's performance and to see it act in the environment.
 
+All training was done using a CPU only since the network only has Fully Connected layers so it would not benefit from any paralelism, thus the GPU would probably not significantly decrease training time. GPU would only be more relevant if the environment used to train was the Multi Agent environment since it features 20 Agents acting simultaneously.
 
-
-### Agent Behaviours
-
-`act(self, state, eps=0.)`
-
-The local Q Network is changed to evaluation mode based on the current state an action is choosen based the current policy using a epsilon greedy aproach.
-
-`step(self, state, action, reward, next_state, done)`
-
-It performs a step, potentially a learning step. An experience is saved into the Replay Memory and if enough steps have passed (based on a hyperparameter) the agent replays a random experience from memory and learns from it.
-
-`learn(self, experiences, gamma)`
-
-Changes local network to train mode and updates value parameters using a given batch of experience tuples (replay memory) and a discount factor.
-
-It calculates the predicted maximum Q values for each next state using the target network and then uses these calculated values to find the value for each current state. 
-
-Then the expected Q values for each state are also retrieved using the local network and the loss between the Q values of the local and the target is calculated (using the mean squared error).
-
-This loss is then used for the backpropagation step along with the optimizer. 
-
-Finally the network is updated using a soft update.
-
-`soft_update(self, local_model, target_model, tau)`
-
-Updates both the local and the target networks weights depending on the value of the hyperparameter tau.
 
 ## Hyperparameters
+
+The agent receives a set of hyperparameters in its constructor which can be fine tuned in order to improve its performance.
 
 ```
 =====
@@ -164,100 +155,178 @@ sigma (float) : Ornstein-Uhlenbeck noise parameter
 ```
 
 
-## Results
+## **Results**
 
 The process decided for experimenting was to train each agent with different chosen hyperparameters for some episodes. Based on the results some agents were choosen to be trained for longer.
 
 Using this process made it easier to test more hyperparameters values and as such to better learn which values would be better.
 
-1. 1st Try
+### 1. First Try With Intuitive Hyperparameters
 ```
-DDPG called with params: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fcs1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0002 weight_decay=0 
+Parameters: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fcs1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0002 weight_decay=0 
 ```
+
+
+-  Train - 200 episodes
+
+The model had difficulty learning and learned quite slow.
 
 ![Training Unity](./imgs/results/fulltrainparamsWObatchnorm.png)
 
-2. Batch Norm
+
+
+### 2. Batch Norm
 ```
-DDPG called with params: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0002 weight_decay=0 batch_norm=True 
+Parameters: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0002 weight_decay=0 batch_norm=True 
 ```
+
+
+- Train - 200 episodes
+
+In these model batch normalization was added to try to make the grow more consistently however it still learned rather slowly and had a high variance.
+
 ![Training Unity](./imgs/results/fulltrainparamsWbatchnorm.png)
 
-3. Higher Learning rate for Critic + #2
+### 3. Higher Learning rate for Critic + #2
 ```
-DDPG called with params: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True 
+Parameters: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True 
 ```
+
+
+- Train - 100 episodes
+
+This time the learning rate for the critic was increased to try to speed up learning, however the model still was not showing great progress.
 
 ![Training Unity](./imgs/results/train1.png)
 
-4. Removed OU Noise + #3 -> **Candidate to Full Train**
-
+### 4. Removed OU Noise + #3
 
 ```
-DDPG called with params: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True add_ounoise=False
+Parameters: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True add_ounoise=False
 ```
+
+- Train - 100 episodes
+
+Since no model was making any progress, a decision was made to simplify the problem and to remove the OU Noise even if it meant possibly more overfitting.
 
 ![Training Unity](./imgs/results/train4.png)
 
+The results were promissing and as such the model was ran again on more episodes.
 
+- Train - 300 episodes
 
-**300 episodes**
-
-- Train
+The model showed great results although it had high variance. It learned quickly and managed to keep having good performances.
 
 ![Training Unity](./imgs/results/train4_full.png)
+
+
 
 - Test
 
 ![Test Unity](./imgs/results/test4_full.png)
 
-**Succesfully Compleated The Enviroment**
+## **Succesfully Completed The Environment**
+
+As seen above the model managed to complete the environment! Having an average score over 100 episodes bigger than 30.
+
+Bellow is shown this model performing in the environment.
 
 <IMG SRC="./imgs/ReacherTest.gif" width = "600" >
 
-5. Dropout Regularization on the Actor + #4
+Despite having completed the environment my curiosity and ambition were still wishing for better and more stable results. 
+
+As such a few other techniques were tested, although with not as much success as hoped. 
+
+### 5. Dropout Regularization on the Actor + #4
+
+When training and using dropout the results will have more variance since some key nodes might be shutdown on some instances, as such it can only be properly evaluated when testing.
 
 ```
-DDPG called with params: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True add_ounoise=False mu=0.0 theta=0.15 sigma=0.2 dropout_prob=0.2
+Parameters: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True add_ounoise=False mu=0.0 theta=0.15 sigma=0.2 dropout_prob=0.2
 ```
+
+
+- Train - 300 episodes
+
+Using dropout in training ended up increasing variance in training and lowering the average score over 100 episodes.
 
 ![Train Unity](./imgs/results/train5.png)
 
+
+```
 dropout_prob=0.15
+```
+
+- Train - 300 episodes
 
 ![Train Unity](./imgs/results/train5(2).png)
 
 
-- Test
 
-dropout_prob=0.15
+- Test - 300 episodes
+
+The test results were what was most surprising since I expected them to have a lot lower variance and higher score than in trainning. 
 
 ![Train Unity](./imgs/results/test5(2).png)
 
-6. Smaller 2nd Layer + #4
+
+
+In hindsight, the implementation of the dropout was probably not a great aproach since it will make the local and the target network greatly differ. The nodes being deactivated in each step in each network are not the same which makes the network chase a moving target. 
+
+Maybe it would have been a better aproach to apply regularization only to the local network or to apply the shutdown to the exact same nodes between the local and the target network.
+
+### 6. Smaller 2nd Layer + #4
 
 ```
-DDPG called with params: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=64 critic_fc1_units=128 critic_fc2_units=64 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True add_ounoise=False mu=0.0 theta=0.15 sigma=0.2 dropout_prob=0.0 
+Parameters: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=64 critic_fc1_units=128 critic_fc2_units=64 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True add_ounoise=False mu=0.0 theta=0.15 sigma=0.2 dropout_prob=0.0 
 ```
+
+
+This attempt was made to see if a simpler network could solve the environment as well as a more complex one
+
+- Train
+
+The results clearly show unpromissing evidences, having hoped for a steeper score ascent.
 
 ![Train Unity](./imgs/results/train6.png)
 
-### Conclusions
+
+### 7. Added OU Noise After 150 Episodes + #3
+
+```
+Parameters: state_size=33 action_size=4 random_seed=0 actor_fc1_units=128 actor_fc2_units=128 critic_fc1_units=128 critic_fc2_units=128 buffer_size=100000 batch_size=128 gamma=0.99 tau=0.001 lr_actor=0.0002 lr_critic=0.0005 weight_decay=0 batch_norm=True add_ounoise=150 mu=0.0 theta=0.15 sigma=0.2 dropout_prob=0.0 
+```
+
+The idea behind applying OU Noise after the network had matured was to only try to reduce variance when its average score was higher. This way initial learning would not be affected by the noise.
+
+- Train
+
+ Unfortunatlly the training data graph was corrupted and lost so we can only acess the model after it has been trained for 300 episodes.
+
+ - Test
+
+ Having turned off the noise when testing, better results were hoped for. However it can be seen that adding noise to every action ended up confusing the networks trainning.
+
+ Maybe an aproach where noise was only added to some actions based on a probability could help the model still learn properly while also reducing its variance.
+
+ ![Train Unity](./imgs/results/test7.png)
+
+
 
 
 ## **Future Work**
 
 Possible modifications, experimentations or additions which could be made and explored to further try to improve our agent behaviour and consistency.
 
-### Q Network
+### Network
 
 - Number of Layer and Nodes Variations
 
-Experimentation with different number of layers/nodes in each layer could be made to try to create either a more powerfull or a lighter and simpler network. A more powerfull network (with more layers and nodes) would need more training time and the oposite for a lighter one.
+Experimentation with different number of layers and nodes in each layer could be made to try to create either a more powerfull or a lighter and simpler network. A more powerfull network (with more layers and nodes) would need more training time and the oposite for a lighter one.
 
 - Input Pixels
 
-The network could be changed to have convolutional layers to take as an input the enviroment pixels (which might need preprocessing such as grayscale, etc.) instead of in-game data.
+The network could be changed to have convolutional layers to take as an input the environment pixels (which might need preprocessing such as grayscale, filters, etc.) instead of internal enviroment data.
 
 In this scenario training with a GPU would be strongly recommended since convolutional layers take a lot of computation power and they can be heavily optimized using paralelism which the strong suit of the GPU.
 
@@ -268,16 +337,32 @@ In this scenario training with a GPU would be strongly recommended since convolu
 
 To deal with the huge variation in the obtained score by the model both when training and when testing a technique called Replay Priority could be enforced.
 
-This technique replays some experiences with a higher priority, for example in the cases where they led to great results or to horrible ones, so as to replay important experiences more frequently, and therefore learn more efficiently and make less mistakes. This should probably help to reduce the variance in the attained score by the network, making it more consistent. 
+This technique replays some experiences with a higher priority, for example in the cases where they led to great results or to horrible ones, so as to replay important experiences more frequently, and therefore learn more efficiently and make less mistakes. This should probably help to reduce the variance in the attained score by the network, making it more consistent and faster to train. 
 
 - Saving the Replay Memory
 
 In addition to the weights of the network being saved when it achieves the desired score goal, the replay memory itself could also be saved to allow for further training of a previous network using its past experiences in addition to new ones.
 
-- DDQN (Double Deep Q Network)
+- Dropout Regularization
 
-Double Q-learning can make estimation more robust by selecting the best action using one set of parameters *W*, but evaluating it using a different set of parameters *W'*. Since we already have a second network (the target network), this implementation would not be to difficult, neither would it weight significantly more computationally.
+As discussed before, dropout could be changed to apply regularization only to the local network or to apply the shutdown to the exact same nodes between the local and the target network. This way the local network would not be chassing a moving target.
+
+In addition, dropout could also be implemented in the critic network if attention is given to the problem previously mentioned.
+
+- Ornstein-Uhlenbeck Noise
+
+As also discussed before in the results section, maybe an aproach where noise was only added to some actions based on a probability could help the model still learn properly while also reducing its variance. This could be implemented along side the current implementation which only starts adding the noise after the network has matured.
+
+- Gradient Clipping
+
+Like seen in the course classes gradient clipping can be a valuable technique to avoid the model getting stuck on a set of bad weights.
+
+
 
 ### Hyperparameter Values
 
-These values were choosen based on what the scientific community usually agrees are the best, however they can be changed using trial and error to improve model performance and decrease training time.
+Despite the exploration done, as shown in the results section, better hyperparameters could still be discovered in order to fine tune the model.
+
+This is a struggle a lot of AI project always faces since it is hard to know which hyperparameter values work best for each project.
+
+## **Conclusion**
