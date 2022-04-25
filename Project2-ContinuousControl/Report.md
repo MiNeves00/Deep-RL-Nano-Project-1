@@ -7,11 +7,23 @@
 
 ## **Introduction**
 
-This report explains the implementation of the solution and all it's nuances. For a detailed explanation of the environment check the README.md file.
+This report explains the implementation of the solution present in the Jupyter Notebook file called <a href="./ContinuousControl.ipynb">ContinuousControl.ipynb</a>.
 
-Only the 1st version of the environment was solved in this project, which means there was only one Agent training at any time as seen in the video bellow.
+For a detailed explanation of the environment check the README.md file.
 
-**TODO** insert video of random agent
+Only the 1st version of the environment was solved in this project, which means there was only one Agent training at any time as seen in the videos bellow.
+
+### Random Agent
+
+A agent which acts randomly manages to consistently get a score between 0 and 1, this serves as a baseline. 
+
+<IMG class="cropped" SRC="./imgs/randomReacher.gif" width = "600" >
+
+### Trained Agent
+
+This agent was trained on ~300 episodes and managed to complete the environment, achieving an average score over 100 episodes of 31,23.
+
+<IMG class="cropped" SRC="./imgs/ReacherTest2.gif" width = "600" >
 
 
 ## **Learning Algorithm**
@@ -231,7 +243,9 @@ As seen above the model managed to complete the environment! Having an average s
 
 Bellow is shown this model performing in the environment.
 
-<IMG SRC="./imgs/ReacherTest.gif" width = "600" >
+<IMG class="cropped" SRC="./imgs/ReacherTest2.gif" width = "600" >
+
+</style>
 
 Despite having completed the environment my curiosity and ambition were still wishing for better and more stable results. 
 
@@ -363,6 +377,11 @@ Like seen in the course classes gradient clipping can be a valuable technique to
 
 Despite the exploration done, as shown in the results section, better hyperparameters could still be discovered in order to fine tune the model.
 
-This is a struggle a lot of AI project always faces since it is hard to know which hyperparameter values work best for each project.
+This is a struggle a lot of AI project always face since it is hard to know which values work best for each project.
 
-## **Conclusion**
+<style>
+.cropped {
+width: 600px; 
+height: 200px; 
+object-fit: cover;
+}

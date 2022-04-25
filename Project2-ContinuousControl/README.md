@@ -48,8 +48,15 @@ More specifically:
 
 * This yields an average score for each episode (where the average is over all 20 agents).
 
-# TODO
+It is important to notice that only the **first version was used** in this project.
 
+
+
+## Report
+
+Read the <a href="./Report.md">Report.md</a> file to see all the implementation details and the results obtained along side future work ideas.
+
+---
 
 ## Getting Started
 
@@ -93,8 +100,15 @@ A Unity window like the one bellow will pop up.
 Then go back to the notebook (without closing it) and choose whether you want to train the network or load it from a file and see it perform. 
 Only then should you `Alt-Tab` into the Unity window to see it starting to train or perform in test mode.
 
-![Training Unity](./imgs/trainingBananas.png)
+<IMG class="cropped" SRC="./imgs/randomReacher.gif" width = "600" >
 
 ## Relevant Links
 
 https://www.udacity.com/course/deep-reinforcement-learning-nanodegree--nd893
+
+<style>
+.cropped {
+width: 600px; 
+height: 200px; 
+object-fit: cover;
+}
