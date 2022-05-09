@@ -122,10 +122,6 @@ In addition to breaking harmful correlations, experience replay allows us to lea
 
 Adam Optimizer is used for the backpropagation step and gradient descent, this is one of the most used optimizers in the artificial intelligence community in general since it generates good results almost always.
 
-- Gradient Clipping
-
-To try to reduce overshooting when doing the gradient ascent the gradient is clipped, thus taking a more conservative approach to updating our networks. This means they might need more time to learn but that they should be more stable.
-
 - Ornstein-Uhlenbeck Noise
 
 The OU noise purpose is to improve model generalization and adaptation since when used it adds noise to every action returned in training mode. 
@@ -240,18 +236,6 @@ Having solved the enviroment again and with a smaller network, it suggests that 
 ![Training Unity](./imgs/results/test3(100).png)
 
 Despite these results not being as impressive as the previous ones the agent still managed to solve the enviroment although its obtainned score had high variance.
-
-### 3. Gradient Clipping
-
-Trying to continue solving the overshooting problem this technique we learned in the lessons was applied.
-
--  Train - 700 episodes
-
-![Training Unity](./imgs/results/train4(700).png)
-
--  Test - 100 episodes
-
-![Training Unity](./imgs/results/test4(100).png)
 
 
 ---
