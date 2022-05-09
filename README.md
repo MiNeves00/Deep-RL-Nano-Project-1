@@ -29,7 +29,7 @@ The observation space consists of 33 variables corresponding to position, rotati
 
 <IMG SRC="./Project2-ContinuousControl/imgs/ReacherTest2.gif" width = "600" >
 
-### 2. Collaboration and Competition
+### 3. Collaboration and Competition
 
 This project was made with the [Tennis](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#tennis) environment.
 
