@@ -12,7 +12,7 @@ def hidden_init(layer):
 class Actor(nn.Module):
     """Actor (Policy) Model."""
 
-    def __init__(self, state_size, action_size, seed, fc1_units=400, fc2_units=300, batch_norm=False, dropout_prob=0.):
+    def __init__(self, state_size, action_size, seed, fc1_units=400, fc2_units=300, batch_norm=False):
         """Initialize parameters and build model.
         Params
         ======
@@ -22,7 +22,6 @@ class Actor(nn.Module):
             fc1_units (int): Number of nodes in first hidden layer
             fc2_units (int): Number of nodes in second hidden layer
             batch_norm (bool): True to apply batch normalization
-            dropout_prob (float) : Dropout Regularization Layer Probability - if 0 equals no dropout
         """
         super(Actor, self).__init__()
         self.seed = torch.manual_seed(seed)
@@ -31,7 +30,6 @@ class Actor(nn.Module):
         self.fc3 = nn.Linear(fc2_units, action_size)
         if batch_norm:
             self.bn1 = nn.BatchNorm1d(fc1_units)
-        self.dropout = nn.Dropout(dropout_prob)
         self.batch_norm=batch_norm
         self.reset_parameters()
 
@@ -47,7 +45,6 @@ class Actor(nn.Module):
         x = F.relu(self.fc1(state))
         if self.batch_norm:
             x = self.bn1(x)
-        x = self.dropout(x) # If dropout_prob = 0, does nothing
         x = F.relu(self.fc2(x))
         return torch.tanh(self.fc3(x))
 

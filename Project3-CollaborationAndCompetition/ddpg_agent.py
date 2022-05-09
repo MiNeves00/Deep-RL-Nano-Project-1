@@ -19,7 +19,7 @@ class Agent():
                 critic_fc1_units=400, critic_fc2_units=300, gradient_clip=1.2,
                 buffer_size=int(1e5), batch_size=128,
                 gamma=0.99, tau=1e-3 ,
-                lr_actor=1e-4, lr_critic=1e-3, weight_decay=0, batch_norm=False,  add_ounoise=-1, mu=0., theta=0.15, sigma=0.2, dropout_prob=0.):
+                lr_actor=1e-4, lr_critic=1e-3, weight_decay=0, batch_norm=False,  add_ounoise=-1, mu=0., theta=0.15, sigma=0.2):
         """Initialize an Agent object.
         
         Params
@@ -61,8 +61,8 @@ class Agent():
         self.episode=0
 
         # Actor Network (w/ Target Network)
-        self.actor_local = Actor(state_size, action_size, random_seed, fc1_units=actor_fc1_units, fc2_units=actor_fc2_units, batch_norm=batch_norm,dropout_prob=dropout_prob).to(device)
-        self.actor_target = Actor(state_size, action_size, random_seed,fc1_units=actor_fc1_units, fc2_units=actor_fc2_units, batch_norm=batch_norm,dropout_prob=dropout_prob).to(device)
+        self.actor_local = Actor(state_size, action_size, random_seed, fc1_units=actor_fc1_units, fc2_units=actor_fc2_units, batch_norm=batch_norm).to(device)
+        self.actor_target = Actor(state_size, action_size, random_seed,fc1_units=actor_fc1_units, fc2_units=actor_fc2_units, batch_norm=batch_norm).to(device)
         self.actor_optimizer = optim.Adam(self.actor_local.parameters(), lr=lr_actor)
 
         # Critic Network (w/ Target Network)
