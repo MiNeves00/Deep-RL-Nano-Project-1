@@ -28,3 +28,14 @@ Thus, the goal of your agent is to maintain its position at the target location 
 The observation space consists of 33 variables corresponding to position, rotation, velocity, and angular velocities of the arm. Each action is a vector with four numbers, corresponding to torque applicable to two joints. Every entry in the action vector should be a number between -1 and 1.
 
 <IMG SRC="./Project2-ContinuousControl/imgs/ReacherTest2.gif" width = "600" >
+
+### 2. Collaboration and Competition
+
+This project was made with the [Tennis](https://github.com/Unity-Technologies/ml-agents/blob/master/docs/Learning-Environment-Examples.md#tennis) environment.
+
+In this environment, two agents control rackets to bounce a ball over a net. If an agent hits the ball over the net, it receives a reward of +0.1.  If an agent lets a ball hit the ground or hits the ball out of bounds, it receives a reward of -0.01.  Thus, the goal of each agent is to keep the ball in play.
+
+Due to the nature of the enviroment and how the reward function is designed, the **enviroment rewards cooperation** between the players. 
+
+<IMG SRC="./Project3-CollaborationAndCompetition/imgs/results/test2.gif" width = "600" >
+
