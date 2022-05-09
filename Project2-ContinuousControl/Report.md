@@ -1,4 +1,4 @@
-# Report Project 1 - Navigation
+# Report Project 2 - Continuous Control
 
 ### <p style="text-align: center;">Miguel Carreira Neves</p>
 <p style="text-align: center;">22/03/2022</p>
