@@ -43,5 +43,5 @@ Due to the nature of the enviroment and how the reward function is designed, the
 
 ## Certificate
 
-Proof of course completion can be found in the <a href="https://confirm.udacity.com/A37ALUDPb">Official Certificate</a> by Udacity
+Proof of course completion can be found in the <a href="https://graduation.udacity.com/confirm/A37ALUDP">Official Certificate</a> by Udacity
 
