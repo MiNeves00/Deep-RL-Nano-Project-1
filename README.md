@@ -39,3 +39,9 @@ Due to the nature of the enviroment and how the reward function is designed, the
 
 <IMG SRC="./Project3-CollaborationAndCompetition/imgs/results/test2.gif" width = "600" >
 
+---
+
+## Certificate
+
+Proof of course completion can be found in the <a href="https://confirm.udacity.com/A37ALUDPb">Official Certificate</a> by Udacity
+
